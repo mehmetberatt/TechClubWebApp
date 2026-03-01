@@ -1,44 +1,201 @@
-/* Google Fonts'tan Inter yaz? tipini �ekiyoruz */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+﻿/* --- GOOGLE FONTS (Inter) --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-/* T�m sitenin yaz? tipini ve arka plan rengini de?i?tiriyoruz */
+/* --- GLOBAL DEĞİŞKENLER --- */
+:root {
+  --primary-blue: #137fec;
+  --primary-blue-hover: #106ac5;
+  --secondary-navy: #0a192f;
+  --bg-light: #f6f7f8;
+  --bg-dark: #0d1622;
+  --font-inter: 'Inter', sans-serif;
+}
+
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
+  font-family: var(--font-inter);
+  background-color: var(--bg-light);
+  color: #333;
 }
 
-/* Kartlara �ok yumu?ak, kurumsal bir g�lge veriyoruz */
-.card {
-    border: none;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* --- TYPOGRAPHY AYARLARI --- */
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+  font-family: var(--font-inter);
+}
+.fw-black { font-weight: 900; }
+.letter-spacing-tight { letter-spacing: -0.05em; }
+
+.text-navy { color: var(--secondary-navy); }
+.text-primary-blue { color: var(--primary-blue) !important; }
+.bg-light-gray { background-color: var(--bg-light); }
+
+/* Renkli Yazı (Gradient Text) Efekti */
+.text-gradient {
+  background: linear-gradient(90deg, #93c5fd 0%, var(--primary-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-    /* Fareyle �zerine gelince kart?n hafif�e havaya kalkmas? */
-    .card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-
-/* Butonlar? daha ??k ve oval yap?yoruz */
-.btn-primary {
-    background-color: #0d6efd;
-    border: none;
-    padding: 12px 28px;
-    font-weight: 600;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+/* --- NAVBAR BÖLÜMÜ --- */
+.custom-navbar {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.nav-link {
+  transition: color 0.3s ease;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--primary-blue) !important;
 }
 
-    .btn-primary:hover {
-        background-color: #0b5ed7;
-        transform: scale(1.05);
-    }
+/* --- BUTON TASARIMLARI --- */
+.btn-primary-custom {
+  background-color: var(--primary-blue);
+  color: white;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(19, 127, 236, 0.25);
+}
+.btn-primary-custom:hover {
+  background-color: var(--primary-blue-hover);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(19, 127, 236, 0.4);
+}
 
-/* �zel Kariyer (Bizimle �al???n) Alan? Arka Plan? */
-.career-section {
-    background: linear-gradient(135deg, #0a2540 0%, #1a4066 100%);
-    color: white;
+.btn-outline-light-custom {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+.btn-outline-light-custom:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: white;
+  color: white;
+}
+
+.btn-hover-lift {
+  transition: all 0.3s ease;
+}
+.btn-hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+}
+
+.btn-hover-navy:hover {
+  background-color: var(--secondary-navy) !important;
+  color: white !important;
+  border-color: var(--secondary-navy) !important;
+}
+
+/* --- HERO BÖLÜMÜ (Degrade & Arka Plan) --- */
+.hero-section {
+  background: linear-gradient(135deg, var(--secondary-navy) 0%, #173263 100%);
+  padding: 140px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  z-index: 1;
+}
+
+.glass-badge {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+}
+
+/* --- KART TASARIMLARI (Duyurular) --- */
+.card-modern {
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: white;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.card-modern:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 1rem 3rem rgba(10, 25, 47, 0.08) !important;
+}
+.card-modern .card-img-top {
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+.card-modern:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+/* Renkli Badge (Etiket) Tanımları */
+.badge-soft-primary { background: rgba(19, 127, 236, 0.1); color: var(--primary-blue); padding: 5px 10px; border-radius: 6px; font-weight: 700; text-transform: uppercase; }
+.badge-soft-success { background: rgba(25, 135, 84, 0.1); color: #198754; padding: 5px 10px; border-radius: 6px; font-weight: 700; text-transform: uppercase; }
+.badge-soft-purple { background: rgba(111, 66, 193, 0.1); color: #6f42c1; padding: 5px 10px; border-radius: 6px; font-weight: 700; text-transform: uppercase; }
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --- ETKİNLİKLER BÖLÜMÜ --- */
+.event-item {
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+.event-item:hover {
+  background-color: #f8fafc;
+}
+.event-date-box {
+  background-color: #f0f7ff;
+  border: 1px solid #e0f0ff;
+  border-radius: 1rem;
+  width: 75px;
+  height: 85px;
+  transition: all 0.3s ease;
+}
+.event-item:hover .event-date-box {
+  background-color: var(--primary-blue);
+}
+.event-item:hover .event-date-box span {
+  color: white !important;
+}
+.event-title {
+  transition: color 0.3s ease;
+}
+.event-item:hover .event-title {
+  color: var(--primary-blue);
+}
+
+/* --- KARIYER / VİZYON BÖLÜMÜ --- */
+.vision-section {
+  background: linear-gradient(to right, var(--secondary-navy), #102a52);
+  position: relative;
+  overflow: hidden;
+}
+
+/* --- FOOTER BÖLÜMÜ --- */
+.footer-dark {
+  background-color: #102a52; /* Match the end of the vision-section gradient */
+}
+.transition-color { transition: color 0.2s ease; }
+.hover-text-primary:hover { color: var(--primary-blue) !important; }
+.hover-text-white:hover { color: white !important; }
+
+/* Link Hover Efektleri */
+.link-hover { transition: color 0.3s ease; }
+.translate-x-hover { transition: transform 0.3s ease; display: inline-block; }
+.link-hover:hover .translate-x-hover { transform: translateX(5px); }
+
+/* --- Carousel Override --- */
+.carousel-control-prev, .carousel-control-next {
+  z-index: 10;
 }

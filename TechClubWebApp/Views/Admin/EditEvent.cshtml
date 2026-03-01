@@ -1,0 +1,83 @@
+@model TeknolojiKulubu.Models.Event
+
+@{
+    ViewData["Title"] = "Etkinliği Güncelle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="dash-card p-4 p-md-5">
+            <div class="d-flex align-items-center mb-4">
+                <a asp-action="Events" class="text-secondary me-3 bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; transition: 0.2s;">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <div>
+                    <h5 class="fw-bold text-dark mb-1">Etkinlik Bilgilerini Düzenle</h5>
+                    <p class="text-muted small mb-0">Etkinlik tarihi, saati, konumu veya görselini güncelleyin.</p>
+                </div>
+            </div>
+
+            <hr class="border-light mb-4">
+
+            <form asp-action="EditEvent" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+                
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ImageUrl" /> <!-- Orijinal resmi saklamak için -->
+
+                <div class="mb-4">
+                    <label asp-for="Title" class="form-label fw-semibold text-dark small">Etkinlik Başlığı</label>
+                    <input asp-for="Title" class="form-control form-control-lg bg-light border-0" required />
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label asp-for="EventDate" class="form-label fw-semibold text-dark small">Etkinlik Tarihi ve Saati</label>
+                        <input asp-for="EventDate" class="form-control bg-light border-0" type="datetime-local" required />
+                        <span asp-validation-for="EventDate" class="text-danger small"></span>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <label asp-for="Location" class="form-label fw-semibold text-dark small">Etkinlik Konumu</label>
+                        <input asp-for="Location" class="form-control bg-light border-0" required />
+                        <span asp-validation-for="Location" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold text-dark small">Etkinlik Afişi (Güncelle)</label>
+                    <div class="position-relative">
+                        <input type="file" name="imageFile" id="imageFile" class="form-control d-none" accept="image/*" onchange="document.getElementById('fileNameLabel').textContent = this.files[0].name" />
+                        <label for="imageFile" class="form-control bg-light border-0 d-flex align-items-center justify-content-between" style="cursor:pointer; min-height: 48px;">
+                            <span id="fileNameLabel" class="text-muted">Yeni Afiş Seçmek İçin Tıklayın...</span>
+                            <span class="btn btn-sm btn-secondary rounded-2 px-3 py-1">Gözat</span>
+                        </label>
+                    </div>
+                    
+                    @if (!string.IsNullOrEmpty(Model?.ImageUrl))
+                    {
+                        <div class="mt-2 small text-muted">
+                            <i class="bi bi-image me-1"></i> Mevcut Afiş: <a href="~/@Model.ImageUrl" target="_blank" class="text-decoration-none fw-bold">Görüntüle</a>
+                        </div>
+                    }
+                    <div class="form-text small text-muted mt-2"><i class="bi bi-info-circle"></i> Yeni afiş seçerseniz eskisinin üzerine yazılır.</div>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Description" class="form-label fw-semibold text-dark small">Etkinlik Detayı / Açıklama</label>
+                    <textarea asp-for="Description" class="form-control bg-light border-0" rows="6" required></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex gap-2 justify-content-end mt-5 border-top pt-4">
+                    <a asp-action="Events" class="btn btn-light border px-4 fw-semibold text-muted">İptal</a>
+                    <button type="submit" class="btn btn-primary px-5 fw-bold shadow-sm">
+                        <i class="bi bi-check-circle me-2"></i> Değişiklikleri Kaydet
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

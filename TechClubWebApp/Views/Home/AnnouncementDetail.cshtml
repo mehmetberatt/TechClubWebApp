@@ -1,0 +1,43 @@
+@model TeknolojiKulubu.Models.Announcement
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <a href="@Url.Action("Index", "Home")" class="text-decoration-none text-muted fw-bold d-inline-flex align-items-center mb-4 link-hover">
+                <i class="bi bi-arrow-left me-2"></i> Ana Sayfaya Dön
+            </a>
+            
+            <div class="card card-modern border-0 shadow-sm rounded-4 p-4 p-md-5">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <span class="badge badge-soft-primary px-3 py-2 rounded-pill">Duyuru / Haber</span>
+                    <span class="text-muted fw-medium"><i class="bi bi-calendar3 me-2 text-primary-blue"></i>@Model.CreatedDate.ToString("dd MMMM yyyy")</span>
+                </div>
+                
+                <h1 class="fw-black text-navy mb-4 display-5">@Model.Title</h1>
+                
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <div class="mb-4 rounded-4 text-center">
+                        <img src="@Model.ImageUrl" class="img-fluid rounded-4 shadow-sm" alt="@Model.Title" style="max-height: 500px; object-fit: contain;">
+                    </div>
+                }
+                else
+                {
+                    <div class="mb-4 rounded-4 text-center">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop" class="img-fluid rounded-4 shadow-sm" alt="Duyuru Görseli" style="max-height: 500px; object-fit: contain;">
+                    </div>
+                }
+
+                <hr class="border-light my-4">
+                
+                <div class="fs-5 text-secondary" style="line-height: 1.8;">
+                    @Html.Raw(Model.Content.Replace("\n", "<br>"))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

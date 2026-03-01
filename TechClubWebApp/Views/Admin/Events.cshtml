@@ -1,0 +1,72 @@
+@model IEnumerable<TeknolojiKulubu.Models.Event>
+
+@{
+    ViewData["Title"] = "Etkinlik Takvimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="dash-card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h5 class="fw-bold text-dark mb-1">Tüm Etkinlikler</h5>
+            <p class="text-muted small mb-0">Yaklaşan ve geçmiş konferans, eğitim, toplantıları yönetin</p>
+        </div>
+        <a asp-action="CreateEvent" class="btn btn-primary fw-semibold px-4 rounded-3 shadow-sm">
+            <i class="bi bi-plus-lg me-2"></i> Yeni Ekle
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle border">
+            <thead class="table-light text-muted small text-uppercase">
+                <tr>
+                    <th class="py-3 px-4">Etkinlik</th>
+                    <th class="py-3">Tarih</th>
+                    <th class="py-3">Konum</th>
+                    <th class="py-3 text-end px-4">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="px-4 fw-medium text-dark" style="max-width: 300px;">
+                                <div class="text-truncate" title="@item.Title">@item.Title</div>
+                            </td>
+                            <td class="text-muted small">
+                                <i class="bi bi-clock me-1"></i> @item.EventDate.ToString("dd.MM.yyyy HH:mm")
+                            </td>
+                            <td class="text-muted small">
+                                <i class="bi bi-geo-alt me-1"></i> @item.Location
+                            </td>
+                            <td class="text-end px-4">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a asp-action="EditEvent" asp-route-id="@item.Id" class="btn btn-sm btn-light border text-primary">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    
+                                    <form asp-action="DeleteEvent" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Bu etkinliği tamamen silmek istediğinize emin misiniz? Ana sayfadan anında kalkacaktır.');">
+                                        <button type="submit" class="btn btn-sm btn-light border text-danger">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center py-5 text-muted">
+                            <i class="bi bi-calendar-x fs-1 d-block mb-3 text-secondary opacity-50"></i>
+                            Sistemde kayıtlı henüz bir etkinlik bulunamadı.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

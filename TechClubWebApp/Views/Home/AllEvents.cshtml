@@ -1,0 +1,107 @@
+@model IEnumerable<TeknolojiKulubu.Models.Event>
+
+@{
+    ViewData["Title"] = "Etkinlik Takvimi";
+}
+
+<div class="container py-5 mt-5">
+    <div class="row mb-5 align-items-end">
+        <div class="col-lg-8">
+            <h1 class="display-5 fw-black text-navy mb-3">Etkinlik Takvimi</h1>
+            <p class="lead text-muted mb-0">Teknoloji kulübümüzün düzenlediği tüm açık eğitimler, seminerler ve zirveler burada listelenmektedir.</p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-light rounded-pill px-4 fw-bold shadow-sm">
+                <i class="bi bi-arrow-left me-2"></i> Ana Sayfaya Dön
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        @if (Model != null && Model.Any())
+        {
+            var upcomingEvents = Model.Where(e => e.EventDate >= DateTime.Now).OrderBy(e => e.EventDate).ToList();
+            var pastEvents = Model.Where(e => e.EventDate < DateTime.Now).OrderByDescending(e => e.EventDate).ToList();
+
+            <h4 class="fw-bold text-navy mt-4 mb-3 border-bottom pb-2">Yaklaşan Etkinlikler</h4>
+            
+            @if(upcomingEvents.Any())
+            {
+                <div class="row g-4">
+                    @foreach (var ev in upcomingEvents)
+                    {
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden card-modern">
+                                @if (!string.IsNullOrEmpty(ev.ImageUrl))
+                                {
+                                    <img src="@ev.ImageUrl" class="card-img-top" alt="@ev.Title" style="height: 200px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <div class="bg-light-gray d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="bi bi-calendar-event display-1 text-primary opacity-25"></i>
+                                    </div>
+                                }
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary-blue mb-3 w-auto align-self-start px-3 py-2 rounded-pill">
+                                        @ev.EventDate.ToString("dd MMMM yyyy - HH:mm")
+                                    </span>
+                                    <h5 class="fw-bold text-navy mb-2">@ev.Title</h5>
+                                    <p class="small text-muted mb-3"><i class="bi bi-geo-alt me-1 text-primary-blue"></i> @ev.Location</p>
+                                    <p class="text-secondary small line-clamp mb-4 flex-grow-1">@ev.Description</p>
+                                    
+                                    <a href="@Url.Action("EventDetail", "Home", new { id = ev.Id })" class="btn btn-outline-primary w-100 rounded-pill fw-semibold mt-auto btn-hover-navy">
+                                        İncele ve Katıl
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="col-12 py-5 text-center bg-light rounded-4">
+                    <i class="bi bi-calendar-x display-4 text-muted opacity-50 mb-3 d-block"></i>
+                    <p class="text-muted fw-semibold mb-0">Şu anda planlanmış yeni bir etkinlik bulunmamaktadır.</p>
+                </div>
+            }
+
+            @if(pastEvents.Any())
+            {
+                <h4 class="fw-bold text-navy mt-5 pt-4 mb-3 border-bottom pb-2">Geçmiş Etkinlikler</h4>
+                <div class="row g-4">
+                    @foreach (var ev in pastEvents)
+                    {
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden bg-light" style="opacity: 0.8;">
+                                @if (!string.IsNullOrEmpty(ev.ImageUrl))
+                                {
+                                    <img src="@ev.ImageUrl" class="card-img-top" alt="@ev.Title" style="height: 150px; object-fit: cover; filter: grayscale(100%);">
+                                }
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <span class="badge bg-secondary mb-3 w-auto align-self-start px-3 py-2 rounded-pill">
+                                        @ev.EventDate.ToString("dd MMMM yyyy")
+                                    </span>
+                                    <h5 class="fw-bold text-secondary mb-2">@ev.Title</h5>
+                                    <p class="text-muted small line-clamp mb-4 flex-grow-1">@ev.Description</p>
+                                    
+                                    <a href="@Url.Action("EventDetail", "Home", new { id = ev.Id })" class="text-secondary fw-semibold mt-auto text-decoration-none">
+                                        Detayları Gör <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 py-5 text-center bg-light rounded-4">
+                <i class="bi bi-inbox display-4 text-muted opacity-50 mb-3 d-block"></i>
+                <p class="text-muted fw-semibold mb-0">Sistemde henüz kayıtlı bir etkinlik bulunmamaktadır.</p>
+            </div>
+        }
+    </div>
+</div>

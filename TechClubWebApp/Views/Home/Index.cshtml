@@ -4,133 +4,144 @@
     ViewData["Title"] = "Ana Sayfa";
 }
 
-<div id="mainCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        @if (Model.Banners != null && Model.Banners.Any())
-        {
-            var isFirst = true;
-            foreach (var banner in Model.Banners)
-            {
-                <div class="carousel-item @(isFirst ? "active" : "")">
-                    <img src="@banner.ImageUrl" class="d-block w-100" alt="Banner Görseli" style="height: 60vh; object-fit: cover;">
-
-                    <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 p-4 rounded-3 shadow-lg">
-                        <h1 class="display-5 fw-bold text-white mb-3">@banner.Title</h1>
-                        <a href="@banner.LinkUrl" class="btn btn-primary btn-lg px-4 rounded-pill">Detaylı İncele</a>
-                    </div>
-                </div>
-                isFirst = false;
-            }
-        }
-        else
-        {
-            <div class="carousel-item active">
-                <img src="https://via.placeholder.com/1920x800?text=Kurumsal+Banner+Gorseli+(1920x800)" class="d-block w-100" alt="Placeholder" style="height: 60vh; object-fit: cover;">
-                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 p-4 rounded-3">
-                    <h1 class="display-5 fw-bold text-white">Sisteme Banner Eklenmedi</h1>
-                </div>
+<!-- 1. HERO / BANNER ALANI (Full Width) -->
+<section class="hero-section text-center">
+    <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop');"></div>
+    <div class="container position-relative z-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <span class="badge rounded-pill border border-light text-light px-3 py-2 mb-4 glass-badge">
+                    2026 İçin Yenilikçi Çözümler
+                </span>
+                
+                @if (Model.Banners != null && Model.Banners.Any())
+                {
+                    var banner = Model.Banners.FirstOrDefault();
+                    <h1 class="display-3 fw-black mb-4">
+                        @banner.Title <br> 
+                        <span class="text-gradient">Bugünden İnşa Ediyoruz</span>
+                    </h1>
+                    <p class="lead text-light opacity-75 mb-5 px-lg-5">
+                        İşletmelerin dijital çağda öne çıkmasını sağlayan ileri düzey yazılımlar üretiyoruz. Yapay zeka entegrasyonundan bulut altyapılarına kadar, geleceğinizin mimarıyız.
+                    </p>
+                }
+                else
+                {
+                    <h1 class="display-3 fw-black mb-4">
+                        Geleceğin Çözümlerini <br> 
+                        <span class="text-gradient">Bugünden İnşa Ediyoruz</span>
+                    </h1>
+                    <p class="lead text-light opacity-75 mb-5 px-lg-5">
+                        İşletmelerin dijital çağda öne çıkmasını sağlayan ileri düzey yazılımlar üretiyoruz. Yapay zeka entegrasyonundan bulut altyapılarına kadar, geleceğinizin mimarıyız.
+                    </p>
+                }
             </div>
-        }
+        </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Önceki</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Sonraki</span>
-    </button>
-</div>
+</section>
 
-<div class="container">
-    <div class="row mb-5 py-4">
-        <div class="col-12 text-center mb-4">
-            <h2 class="fw-bold text-dark display-6">Güncel Duyurular ve Haberler</h2>
-            <div class="mx-auto bg-primary" style="height: 4px; width: 80px; border-radius: 2px;"></div>
+<!-- 2. DUYURULAR (Announcements) -->
+<section class="py-5 bg-light-gray border-bottom">
+    <div class="container py-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 border-bottom pb-4">
+            <div>
+                <h2 class="fw-bold text-navy mb-2">Güncel Duyurular</h2>
+                <p class="text-muted mb-0">En son teknolojik gelişmelerden ve şirket haberlerinden haberdar olun.</p>
+            </div>
+            <a href="@Url.Action("AllAnnouncements", "Home")" class="text-decoration-none text-primary-blue fw-semibold mt-3 mt-md-0 d-flex align-items-center gap-2 link-hover">
+                Tüm Duyurular <i class="bi bi-arrow-right"></i>
+            </a>
         </div>
 
-        @if (Model.Announcements != null && Model.Announcements.Any())
-        {
-            foreach (var announcement in Model.Announcements)
+        <div class="row g-4">
+            @if (Model.Announcements != null && Model.Announcements.Any())
             {
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden transition-hover">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge bg-primary px-3 py-2 rounded-pill">Duyuru</span>
-                                <small class="text-muted fw-semibold">@announcement.CreatedDate.ToString("dd MMMM yyyy")</small>
-                            </div>
-                            <h5 class="card-title fw-bold text-dark mb-3">@announcement.Title</h5>
-                            <p class="card-text text-secondary">
-                                @(announcement.Content.Length > 120 ? announcement.Content.Substring(0, 120) + "..." : announcement.Content)
-                            </p>
-                        </div>
-                        <div class="card-footer bg-white border-0 p-4 pt-0">
-                            <a href="#" class="text-primary fw-bold text-decoration-none">Haberi Oku &rarr;</a>
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-    </div>
-</div>
-
-<div class="bg-light py-5">
-    <div class="container my-4">
-        <div class="row">
-            <div class="col-12 text-center mb-5">
-                <h2 class="fw-bold text-dark display-6">Yaklaşan Etkinlikler</h2>
-                <div class="mx-auto bg-primary" style="height: 4px; width: 80px; border-radius: 2px;"></div>
-            </div>
-
-            @if (Model.Events != null && Model.Events.Any())
-            {
-                foreach (var ev in Model.Events)
+                var classes = new[] { "badge-soft-primary", "badge-soft-success", "badge-soft-purple" };
+                int i = 0;
+                
+                foreach (var announcement in Model.Announcements)
                 {
-                    <div class="col-md-6 mb-4">
-                        <div class="card shadow-sm border-0 rounded-4 overflow-hidden h-100">
-                            <div class="row g-0 h-100">
-                                <div class="col-md-5">
-                                    <img src="@ev.ImageUrl" class="img-fluid w-100 h-100" alt="Etkinlik Afişi" style="object-fit: cover; min-height: 250px;">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card card-modern h-100">
+                            <!-- Dynamic Image Logic -->
+                            @if (!string.IsNullOrEmpty(announcement.ImageUrl))
+                            {
+                                <img src="@announcement.ImageUrl" class="card-img-top" alt="@announcement.Title" style="height: 200px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop" class="card-img-top" alt="Duyuru Görseli" style="height: 200px; object-fit: cover;">
+                            }
+                            <div class="card-body d-flex flex-column p-4">
+                                <div class="d-flex align-items-center gap-2 mb-3">
+                                    <span class="badge @classes[i % 3]">Duyuru</span>
+                                    <small class="text-muted">@announcement.CreatedDate.ToString("dd MMM yyyy")</small>
                                 </div>
-                                <div class="col-md-7 d-flex flex-column">
-                                    <div class="card-body p-4 flex-grow-1">
-                                        <h5 class="card-title fw-bold text-dark mb-3">@ev.Title</h5>
-                                        <p class="card-text text-secondary mb-4">@ev.Description</p>
-
-                                        <div class="mt-auto">
-                                            <div class="d-flex align-items-center mb-2 text-muted font-monospace">
-                                                <strong class="text-dark me-2">Tarih:</strong> @ev.EventDate.ToString("dd.MM.yyyy - HH:mm")
-                                            </div>
-                                            <div class="d-flex align-items-center text-muted font-monospace">
-                                                <strong class="text-dark me-2">Konum:</strong> @ev.Location
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <h4 class="card-title fw-bold text-navy mb-3">@announcement.Title</h4>
+                                <p class="card-text text-muted mb-4 flex-grow-1 line-clamp">
+                                    @announcement.Content
+                                </p>
+                                <a href="@Url.Action("AnnouncementDetail", "Home", new { id = announcement.Id })" class="text-decoration-none text-primary-blue fw-bold d-inline-flex align-items-center gap-1 mt-auto link-hover">
+                                    Haberi Oku <i class="bi bi-arrow-right translate-x-hover"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
+                    i++;
                 }
             }
         </div>
     </div>
-</div>
+</section>
 
-<div class="career-section py-5">
+<!-- 3. YAKLAŞAN ETKİNLİKLER (Events) -->
+<section class="py-5 bg-white">
     <div class="container py-5">
-        <div class="row align-items-center">
-            <div class="col-lg-7 mb-4 mb-lg-0">
-                <span class="badge bg-light text-primary px-3 py-2 rounded-pill mb-3 fw-bold shadow-sm">Kariyer Fırsatları</span>
-                <h2 class="display-5 fw-bold text-white mb-4">Geleceği Birlikte Kodlayalım</h2>
-                <p class="lead text-white-50 mb-5" style="line-height: 1.8;">
-                    Dinamik ve yenilikçi projelerle dolu bir ortamda, sürekli gelişeceğin bir kariyer seni bekliyor. Harika bir ekibin parçası olmak istiyorsan, TechClub tam sana göre!
+        <div class="row gx-5">
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h2 class="fw-bold text-navy mb-4">Yaklaşan Etkinlikler</h2>
+                <p class="text-muted mb-4">
+                    Sektör liderleri ve uzman ekibimizle tanışma fırsatı yakalayacağınız konferans ve webinarlarımıza davetlisiniz.
                 </p>
-                <a href="#" class="btn btn-light btn-lg text-primary fw-bold px-5 py-3 rounded-pill shadow">Detaylar için ulaşın &rarr;</a>
+                <a href="@Url.Action("AllEvents", "Home")" class="btn btn-outline-secondary rounded-3 px-4 py-2 fw-semibold d-none d-lg-inline-flex btn-hover-navy">Tüm Program</a>
             </div>
-            <div class="col-lg-5 text-center">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop" class="img-fluid rounded-4 shadow-lg border border-white border-opacity-25" alt="TechClub Ekibi" style="transform: rotate(2deg); transition: transform 0.3s ease;" onmouseover="this.style.transform='rotate(0deg)'" onmouseout="this.style.transform='rotate(2deg)'">
+            <div class="col-lg-8">
+                <div class="d-flex flex-column gap-3">
+                    
+                    @if (Model.Events != null && Model.Events.Any())
+                    {
+                        foreach (var ev in Model.Events)
+                        {
+                            <a href="@Url.Action("EventDetail", "Home", new { id = ev.Id })" class="event-item d-flex gap-4 p-3 rounded-4">
+                                <div class="event-date-box flex-shrink-0 text-center shadow-sm d-flex flex-column justify-content-center">
+                                    <span class="text-primary-blue fw-bold small text-uppercase d-block mt-1">@ev.EventDate.ToString("MMM")</span>
+                                    <span class="text-navy fs-3 fw-black d-block mt-n1">@ev.EventDate.ToString("dd")</span>
+                                </div>
+                                <div class="d-flex flex-column justify-content-center border-bottom pb-3 w-100 border-light event-border">
+                                    <small class="text-muted fw-semibold mb-1">@ev.Location • @ev.EventDate.ToString("HH:mm")</small>
+                                    <h4 class="fw-bold text-navy mb-1 fs-5 event-title">@ev.Title</h4>
+                                    <p class="text-muted small mb-0">@ev.Description</p>
+                                </div>
+                            </a>
+                        }
+                    }
+
+                </div>
+                <a href="@Url.Action("AllEvents", "Home")" class="btn btn-outline-secondary rounded-3 px-4 py-2 fw-semibold w-100 mt-4 d-lg-none">Tüm Program</a>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- 4. KARİYER / VİZYON ALANI -->
+<section class="vision-section py-5 text-center px-3" style="margin-bottom: -1px;">
+    <div class="container py-5 my-md-4 position-relative z-2">
+        <h2 class="display-4 fw-black text-white mb-4">Geleceği Birlikte Kodlayalım.</h2>
+        <p class="lead text-white opacity-75 mx-auto mb-5" style="max-width: 700px;">
+            Ekibimize katılacak genç yetenekler ve deneyimli zihinler arıyoruz. Milyonlarca insana dokunacak projelerde yer almak için adım atın.
+        </p>
+        <a href="@Url.Action("Career", "Home")" class="btn btn-light rounded-pill text-primary-blue fw-bold px-5 py-3 shadow-lg btn-hover-lift">
+            Bize Katılın
+        </a>
+    </div>
+</section>

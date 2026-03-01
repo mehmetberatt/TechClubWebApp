@@ -1,0 +1,63 @@
+@model IEnumerable<TeknolojiKulubu.Models.Announcement>
+
+@{
+    ViewData["Title"] = "Tüm Duyurular";
+}
+
+<div class="hero-section text-center py-5" style="background: linear-gradient(135deg, var(--secondary-navy) 0%, #173263 100%);">
+    <div class="container py-5 mt-5">
+        <h1 class="display-4 fw-black text-white mb-4">Duyurular & Haberler</h1>
+        <p class="lead text-white opacity-75 mx-auto" style="max-width: 700px;">
+            Kulübümüzden ve teknoloji dünyasından en güncel gelişmeler, röportajlar ve yenilikler.
+        </p>
+    </div>
+</div>
+
+<div class="container py-5 mt-4">
+    <div class="row g-4 justify-content-center">
+        @if (Model != null && Model.Any())
+        {
+            var classes = new[] { "badge-soft-primary", "badge-soft-success", "badge-soft-purple" };
+            int i = 0;
+            
+            foreach (var announcement in Model.OrderByDescending(x => x.CreatedDate))
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-modern h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                        @if (!string.IsNullOrEmpty(announcement.ImageUrl))
+                        {
+                            <img src="@announcement.ImageUrl" class="card-img-top" alt="@announcement.Title" style="height: 220px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop" class="card-img-top" alt="Duyuru Görseli" style="height: 220px; object-fit: cover;">
+                        }
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <span class="badge @classes[i % 3]">Haberdar Olun</span>
+                                <small class="text-muted">@announcement.CreatedDate.ToString("dd MMM yyyy")</small>
+                            </div>
+                            <h4 class="card-title fw-bold text-navy mb-3 fs-5">@announcement.Title</h4>
+                            <p class="card-text text-muted mb-4 flex-grow-1 line-clamp">
+                                @announcement.Content
+                            </p>
+                            <a href="@Url.Action("AnnouncementDetail", "Home", new { id = announcement.Id })" class="text-decoration-none text-primary-blue fw-bold d-inline-flex align-items-center gap-1 mt-auto link-hover">
+                                Haberi Oku <i class="bi bi-arrow-right translate-x-hover"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                i++;
+            }
+        }
+        else
+        {
+            <div class="col-lg-8 text-center text-muted py-5">
+                <i class="bi bi-inbox display-1 text-secondary opacity-50 mb-4 d-block"></i>
+                <h4 class="fw-bold text-navy">Henüz bir duyuru yayınlanmadı.</h4>
+                <p>Sistemde aktif bir haber bulunmuyor.</p>
+                <a href="@Url.Action("Index", "Home")" class="btn btn-outline-primary mt-4 rounded-pill px-4">Ana Sayfaya Dön</a>
+            </div>
+        }
+    </div>
+</div>

@@ -9,6 +9,6 @@ namespace TeknolojiKulubu.Models
         public string Description { get; set; } // Etkinlik Detayı
         public DateTime EventDate { get; set; } // Etkinliğin yapılacağı tarih ve saat
         public string Location { get; set; } // Nerede yapılacak?
-        public string ImageUrl { get; set; } // Etkinliğin afişi
+        public string? ImageUrl { get; set; } // Etkinliğin afişi (Nullable)
     }
 }

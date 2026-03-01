@@ -9,5 +9,7 @@ namespace TeknolojiKulubu.Models
         public string Content { get; set; } // Duyuru İçeriği/Detayı
         public DateTime CreatedDate { get; set; } // yayınlandığı tarih ve saat
         public bool IsActive { get; set; } // true false duyuru yayında mı sorusuna karşılık
+        
+        public string? ImageUrl { get; set; } // Added for Image Upload support
     }
 }

@@ -1,0 +1,86 @@
+@model TeknolojiKulubu.Models.Event
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container py-5 mt-5">
+    <a href="@Url.Action("Index", "Home")" class="text-decoration-none text-muted fw-bold d-inline-flex align-items-center mb-4 link-hover">
+        <i class="bi bi-arrow-left me-2"></i> Ana Sayfaya Dön
+    </a>
+
+    <div class="row g-5">
+        <div class="col-lg-8">
+            <div class="card card-modern border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" class="card-img-top" alt="Etkinlik Görseli" style="height: 400px; object-fit: cover;">
+                }
+                else
+                {
+                    <div class="bg-light-gray d-flex align-items-center justify-content-center" style="height: 300px;">
+                        <i class="bi bi-calendar-event display-1 text-primary opacity-25"></i>
+                    </div>
+                }
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <span class="badge badge-soft-success px-3 py-2 rounded-pill">Yaklaşan Etkinlik</span>
+                    </div>
+                    
+                    <h1 class="fw-black text-navy mb-4 display-5">@Model.Title</h1>
+                    
+                    <hr class="border-light my-4">
+                    
+                    <h5 class="fw-bold text-navy mb-3">Etkinlik Hakkında</h5>
+                    <div class="fs-5 text-secondary" style="line-height: 1.8;">
+                        @Html.Raw(Model.Description.Replace("\n", "<br>"))
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 sticky-top" style="top: 100px;">
+                <h4 class="fw-bold text-navy mb-4 pb-3 border-bottom">Etkinlik Detayları</h4>
+                
+                <div class="d-flex flex-column gap-4">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-light-gray p-3 rounded-circle text-primary-blue fs-4 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted d-block fw-bold mb-1">Tarih</small>
+                            <span class="fw-semibold text-secondary">@Model.EventDate.ToString("dd MMMM yyyy")</span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-light-gray p-3 rounded-circle text-primary-blue fs-4 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="bi bi-clock"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted d-block fw-bold mb-1">Saat</small>
+                            <span class="fw-semibold text-secondary">@Model.EventDate.ToString("HH:mm")</span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-light-gray p-3 rounded-circle text-primary-blue fs-4 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted d-block fw-bold mb-1">Konum</small>
+                            <span class="fw-semibold text-secondary">@Model.Location</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-5">
+                    <button class="btn btn-primary-custom w-100 rounded-pill py-3 fw-bold shadow">
+                        Takvime Ekle
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -34,5 +34,62 @@ namespace TechClubWebApp.Controllers
             
             return View(viewModel);
         }
+
+        public IActionResult AnnouncementDetail(int id)
+        {
+            var announcement = _context.Announcements.FirstOrDefault(a => a.Id == id && a.IsActive);
+            if (announcement == null)
+            {
+                return NotFound();
+            }
+            return View(announcement);
+        }
+
+        public IActionResult EventDetail(int id)
+        {
+            var ev = _context.Events.FirstOrDefault(e => e.Id == id);
+            if (ev == null)
+            {
+                return NotFound();
+            }
+            return View(ev);
+        }
+
+        public IActionResult AllEvents()
+        {
+            var events = _context.Events.OrderBy(e => e.EventDate).ToList();
+            return View(events);
+        }
+
+        public IActionResult AllAnnouncements()
+        {
+            var announcements = _context.Announcements.Where(a => a.IsActive).OrderByDescending(a => a.CreatedDate).ToList();
+            return View(announcements);
+        }
+
+        public IActionResult Career()
+        {
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        public IActionResult Services()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
     }
 }
