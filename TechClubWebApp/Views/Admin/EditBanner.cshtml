@@ -1,0 +1,65 @@
+@model TeknolojiKulubu.Models.Banner
+
+@{
+    ViewData["Title"] = "Vitrini Düzenle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="dash-card p-4 p-md-5">
+            <div class="d-flex align-items-center mb-4">
+                <a asp-action="Banners" class="text-secondary me-3 bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; transition: 0.2s;">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <div>
+                    <h5 class="fw-bold text-dark mb-1">Ana Sayfa Vitrinini Güncelle</h5>
+                    <p class="text-muted small mb-0">Bilgileri değiştirmek veya yönlendirme linkini düzenlemek için formu kullanın.</p>
+                </div>
+            </div>
+
+            <hr class="border-light mb-4">
+
+            <form asp-action="EditBanner" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+                
+                <div class="mb-4">
+                    <label asp-for="Title" class="form-label fw-semibold text-dark small">Ana Satır (Büyük Başlık)</label>
+                    <input asp-for="Title" class="form-control form-control-lg bg-light border-0" required />
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold text-dark small">Yeni Arka Plan Görseli Seç (Değiştirilmeyecekse boş bırakın)</label>
+                    <div class="position-relative">
+                        <input type="hidden" asp-for="ImageUrl" />
+                        <input type="file" name="imageFile" id="imageFile" class="form-control d-none" accept="image/*" onchange="document.getElementById('fileNameLabel').textContent = this.files[0].name" />
+                        <label for="imageFile" class="form-control bg-light border-0 d-flex align-items-center justify-content-between" style="cursor:pointer; min-height: 48px;">
+                            <span id="fileNameLabel" class="text-muted">@((!string.IsNullOrEmpty(Model?.ImageUrl)) ? "Mevcut görsel değiştirilecek..." : "Görsel Seçmek İçin Tıklayın...")</span>
+                            <span class="btn btn-sm btn-secondary rounded-2 px-3 py-1">Gözat</span>
+                        </label>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model?.ImageUrl))
+                    {
+                        <div class="mt-2 text-muted small">
+                            Mevcut Görsel: <a href="@Model.ImageUrl" target="_blank">Görüntüle</a>
+                        </div>
+                    }
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Description" class="form-label fw-semibold text-dark small">Detay / Açıklama Ekleyin (İsteğe Bağlı)</label>
+                    <textarea asp-for="Description" class="form-control bg-light border-0" rows="3"></textarea>
+                </div>
+
+                <div class="d-flex gap-2 justify-content-end mt-5 border-top pt-4">
+                    <a asp-action="Banners" class="btn btn-light border px-4 fw-semibold text-muted">İptal</a>
+                    <button type="submit" class="btn btn-primary px-5 fw-bold shadow-sm">
+                        <i class="bi bi-pencil-square me-2"></i> Güncelle
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -16,5 +16,24 @@ namespace TechClubWebApp.Data
         public DbSet<Banner> Banners { get; set; }
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<AdminUser> Admins { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Seed default admin: admin / 123
+            // "123" -> SHA256 -> Base64 is "pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM="
+            modelBuilder.Entity<AdminUser>().HasData(
+                new AdminUser
+                {
+                    Id = 1,
+                    Username = "admin",
+                    PasswordHash = "pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM=",
+                    Role = "Administrator",
+                    CreatedDate = new System.DateTime(2024, 1, 1)
+                }
+            );
+        }
     }
 }

@@ -137,8 +137,13 @@
                 <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Events" || ViewContext.RouteData.Values["Action"].ToString().Contains("Event") ? "active" : "")">
                     <a asp-controller="Admin" asp-action="Events"><i class="bi bi-calendar-event"></i> Etkinlikler</a>
                 </li>
-                <li>
-                    <a href="#"><i class="bi bi-images"></i> Banner Yönetimi</a>
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Banners" || ViewContext.RouteData.Values["Action"].ToString().Contains("Banner") ? "active" : "")">
+                    <a asp-controller="Admin" asp-action="Banners"><i class="bi bi-images"></i> Banner Yönetimi</a>
+                </li>
+
+                <li class="mt-4 mb-2 px-3 text-uppercase text-muted small fw-bold" style="letter-spacing: 1px; font-size: 0.75rem;">Güvenlik</li>
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Admins" || ViewContext.RouteData.Values["Action"].ToString().Contains("Admin") && ViewContext.RouteData.Values["Action"].ToString() != "Index" ? "active" : "")">
+                    <a asp-controller="Admin" asp-action="Admins"><i class="bi bi-shield-lock"></i> Yöneticiler</a>
                 </li>
 
                 <li class="mt-4 mb-2 px-3 text-uppercase text-muted small fw-bold" style="letter-spacing: 1px; font-size: 0.75rem;">Sistem</li>

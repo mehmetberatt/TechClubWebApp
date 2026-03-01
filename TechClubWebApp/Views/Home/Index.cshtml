@@ -4,45 +4,143 @@
     ViewData["Title"] = "Ana Sayfa";
 }
 
-<!-- 1. HERO / BANNER ALANI (Full Width) -->
-<section class="hero-section text-center">
-    <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop');"></div>
-    <div class="container position-relative z-2">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <span class="badge rounded-pill border border-light text-light px-3 py-2 mb-4 glass-badge">
-                    2026 İçin Yenilikçi Çözümler
-                </span>
-                
+<!-- 1. HERO / BANNER ALANI (Container Width) -->
+<section class="pt-4 pb-5" style="background-color: #0b1120;">
+    <div class="container">
+        <!-- Banner Box -->
+        <div id="heroCarousel" class="carousel slide position-relative rounded-4 overflow-hidden shadow-lg" data-bs-ride="carousel" data-bs-interval="4000" style="min-height: 500px; background-color: #1a233a;">
+            
+            <div class="carousel-inner h-100">
                 @if (Model.Banners != null && Model.Banners.Any())
                 {
-                    var banner = Model.Banners.FirstOrDefault();
-                    <h1 class="display-3 fw-black mb-4">
-                        @banner.Title <br> 
-                        <span class="text-gradient">Bugünden İnşa Ediyoruz</span>
-                    </h1>
-                    <p class="lead text-light opacity-75 mb-5 px-lg-5">
-                        İşletmelerin dijital çağda öne çıkmasını sağlayan ileri düzey yazılımlar üretiyoruz. Yapay zeka entegrasyonundan bulut altyapılarına kadar, geleceğinizin mimarıyız.
-                    </p>
+                    var bannersList = Model.Banners.ToList();
+                    for (int i = 0; i < bannersList.Count; i++)
+                    {
+                        var banner = bannersList[i];
+                        var bgImage = !string.IsNullOrEmpty(banner.ImageUrl) 
+                            ? banner.ImageUrl 
+                            : "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop";
+                        
+                        <div class="carousel-item h-100 @(i == 0 ? "active" : "")">
+                            <!-- Background Image with Soft Gradient Overlay -->
+                            <div class="position-absolute top-0 start-0 w-100 h-100" style="background-image: url('@bgImage'); background-size: cover; background-position: right center;"></div>
+                            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(90deg, rgba(11, 17, 32, 0.95) 0%, rgba(11, 17, 32, 0.6) 40%, transparent 100%);"></div>
+
+                            <!-- Content -->
+                            <div class="position-relative z-2 h-100 d-flex align-items-center" style="min-height: 500px;">
+                                <div class="row w-100 m-0 px-4 px-lg-5">
+                                    <div class="col-12 col-lg-7 py-5">
+                                        <h1 class="display-4 fw-bold text-white mb-3" style="font-family: 'Playfair Display', serif; line-height: 1.2;">
+                                            @banner.Title
+                                        </h1>
+                                        <p class="fs-5 text-white-50 mt-4 mb-0 pe-lg-5" style="max-width: 600px; line-height: 1.6;">
+                                            @(!string.IsNullOrEmpty(banner.Description) ? banner.Description : "Geniş kapsamlı araştırmalarla şekillenen, geleceğin teknoloji trendlerine dair değerlendirmelerin yer aldığı raporumuz ve çözümlerimiz burada!")
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 }
                 else
                 {
-                    <h1 class="display-3 fw-black mb-4">
-                        Geleceğin Çözümlerini <br> 
-                        <span class="text-gradient">Bugünden İnşa Ediyoruz</span>
-                    </h1>
-                    <p class="lead text-light opacity-75 mb-5 px-lg-5">
-                        İşletmelerin dijital çağda öne çıkmasını sağlayan ileri düzey yazılımlar üretiyoruz. Yapay zeka entegrasyonundan bulut altyapılarına kadar, geleceğinizin mimarıyız.
-                    </p>
+                    <!-- Fallback Static Banner -->
+                    <div class="carousel-item active h-100">
+                        <div class="position-absolute top-0 start-0 w-100 h-100" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop'); background-size: cover; background-position: right center;"></div>
+                        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(90deg, rgba(11, 17, 32, 0.95) 0%, rgba(11, 17, 32, 0.6) 40%, transparent 100%);"></div>
+
+                        <div class="position-relative z-2 h-100 d-flex align-items-center" style="min-height: 500px;">
+                            <div class="row w-100 m-0 px-4 px-lg-5">
+                                <div class="col-12 col-lg-7 py-5">
+                                    <h1 class="display-4 fw-bold text-white mb-3" style="font-family: var(--font-inter); line-height: 1.2;">
+                                        Softtech 2026 Teknoloji Raporu
+                                    </h1>
+                                    <p class="fs-5 text-white-50 mt-4 mb-0 pe-lg-5" style="max-width: 600px; line-height: 1.6;">
+                                        Geniş kapsamlı araştırmalarla şekillenen, geleceğin teknoloji trendlerine dair değerlendirmelerin yer aldığı Softtech 2026 Teknoloji Raporu yayında!
+                                    </p>                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
             </div>
+
+            <!-- Custom Navigation (Bottom Right) -->
+            @if (Model.Banners != null && Model.Banners.Any())
+            {
+                <div class="position-absolute bottom-0 end-0 z-3 p-4 p-md-5 d-flex align-items-center gap-4">
+                    
+                    <!-- Dynamic Slide Counter via JS -->
+                    <div class="d-flex align-items-center" style="font-family: var(--font-inter); font-size: 1.1rem;">
+                        <span id="currentSlideNum" class="fw-bold text-white">1</span>
+                        <span class="text-white-50 mx-2">/</span>
+                        <span class="text-white-50">@Model.Banners.Count()</span>
+                    </div>
+
+                    <!-- Separator Line (Progress Bar) -->
+                    <div class="d-flex ms-3 me-3" style="width: 100px; height: 2px; background-color: rgba(255, 255, 255, 0.2); position: relative;">
+                        <!-- Aktif Çubuk (İlerleyen Kısım) -->
+                        <div id="slideProgressBar" style="width: @(100.0/Model.Banners.Count())%; height: 100%; background-color: #ffffff; position: absolute; left: 0; top: 0; transition: width 0.4s ease-in-out;"></div>
+                    </div>
+
+                    <!-- Navigation Arrows -->
+                    <div class="d-flex gap-3">
+                        <button class="btn p-0 rounded-circle d-flex align-items-center justify-content-center" 
+                                type="button" 
+                                data-bs-target="#heroCarousel" 
+                                data-bs-slide="prev" 
+                                style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); transition: 0.3s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.15)'" 
+                                onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+                            <i class="bi bi-arrow-left text-white fs-5"></i>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        
+                        <button class="btn p-0 rounded-circle d-flex align-items-center justify-content-center" 
+                                type="button" 
+                                data-bs-target="#heroCarousel" 
+                                data-bs-slide="next" 
+                                style="width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); transition: 0.3s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.15)'" 
+                                onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+                            <i class="bi bi-arrow-right text-white fs-5"></i>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </section>
 
+<!-- Script to update counter and progress bar dynamically -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var heroCarousel = document.getElementById('heroCarousel');
+        var counterSpan = document.getElementById('currentSlideNum');
+        var slideProgressBar = document.getElementById('slideProgressBar');
+        var totalSlides = @(Model.Banners != null ? Model.Banners.Count() : 0);
+
+        if (heroCarousel && counterSpan && totalSlides > 0) {
+            heroCarousel.addEventListener('slide.bs.carousel', function (e) {
+                var current = e.to + 1;
+                
+                // Numarayı Güncelle
+                counterSpan.textContent = current;
+                
+                // Çubuğun Uzunluğunu Güncelle
+                if (slideProgressBar) {
+                    var percentage = (current / totalSlides) * 100;
+                    slideProgressBar.style.width = percentage + '%';
+                }
+            });
+        }
+    });
+</script>
+
+
 <!-- 2. DUYURULAR (Announcements) -->
-<section class="py-5 bg-light-gray border-bottom">
-    <div class="container py-5">
+<section class="pt-3 pb-5 bg-light-gray border-bottom">
+    <div class="container pb-5 pt-2">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 border-bottom pb-4">
             <div>
                 <h2 class="fw-bold text-navy mb-2">Güncel Duyurular</h2>
