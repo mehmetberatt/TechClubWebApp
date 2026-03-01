@@ -22,7 +22,7 @@
                             : "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop";
                         
                         <div class="carousel-item h-100 @(i == 0 ? "active" : "")">
-                            <!-- Background Image with Soft Gradient Overlay -->
+                          
                             <div class="position-absolute top-0 start-0 w-100 h-100" style="background-image: url('@bgImage'); background-size: cover; background-position: right center;"></div>
                             <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(90deg, rgba(11, 17, 32, 0.95) 0%, rgba(11, 17, 32, 0.6) 40%, transparent 100%);"></div>
 
@@ -44,7 +44,7 @@
                 }
                 else
                 {
-                    <!-- Fallback Static Banner -->
+                  
                     <div class="carousel-item active h-100">
                         <div class="position-absolute top-0 start-0 w-100 h-100" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop'); background-size: cover; background-position: right center;"></div>
                         <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(90deg, rgba(11, 17, 32, 0.95) 0%, rgba(11, 17, 32, 0.6) 40%, transparent 100%);"></div>
@@ -64,25 +64,24 @@
                 }
             </div>
 
-            <!-- Custom Navigation (Bottom Right) -->
+          
             @if (Model.Banners != null && Model.Banners.Any())
             {
                 <div class="position-absolute bottom-0 end-0 z-3 p-4 p-md-5 d-flex align-items-center gap-4">
                     
-                    <!-- Dynamic Slide Counter via JS -->
+                  
                     <div class="d-flex align-items-center" style="font-family: var(--font-inter); font-size: 1.1rem;">
                         <span id="currentSlideNum" class="fw-bold text-white">1</span>
                         <span class="text-white-50 mx-2">/</span>
                         <span class="text-white-50">@Model.Banners.Count()</span>
                     </div>
 
-                    <!-- Separator Line (Progress Bar) -->
+                 
                     <div class="d-flex ms-3 me-3" style="width: 100px; height: 2px; background-color: rgba(255, 255, 255, 0.2); position: relative;">
-                        <!-- Aktif Çubuk (İlerleyen Kısım) -->
+              
                         <div id="slideProgressBar" style="width: @(100.0/Model.Banners.Count())%; height: 100%; background-color: #ffffff; position: absolute; left: 0; top: 0; transition: width 0.4s ease-in-out;"></div>
                     </div>
 
-                    <!-- Navigation Arrows -->
                     <div class="d-flex gap-3">
                         <button class="btn p-0 rounded-circle d-flex align-items-center justify-content-center" 
                                 type="button" 
@@ -112,7 +111,6 @@
     </div>
 </section>
 
-<!-- Script to update counter and progress bar dynamically -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var heroCarousel = document.getElementById('heroCarousel');
@@ -138,7 +136,6 @@
 </script>
 
 
-<!-- 2. DUYURULAR (Announcements) -->
 <section class="pt-3 pb-5 bg-light-gray border-bottom">
     <div class="container pb-5 pt-2">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 border-bottom pb-4">
@@ -161,7 +158,7 @@
                 {
                     <div class="col-md-6 col-lg-4">
                         <div class="card card-modern h-100">
-                            <!-- Dynamic Image Logic -->
+                
                             @if (!string.IsNullOrEmpty(announcement.ImageUrl))
                             {
                                 <img src="@announcement.ImageUrl" class="card-img-top" alt="@announcement.Title" style="height: 200px; object-fit: cover;">
@@ -192,7 +189,6 @@
     </div>
 </section>
 
-<!-- 3. YAKLAŞAN ETKİNLİKLER (Events) -->
 <section class="py-5 bg-white">
     <div class="container py-5">
         <div class="row gx-5">
@@ -231,7 +227,6 @@
     </div>
 </section>
 
-<!-- 4. KARİYER / VİZYON ALANI -->
 <section class="vision-section py-5 text-center px-3" style="margin-bottom: -1px;">
     <div class="container py-5 my-md-4 position-relative z-2">
         <h2 class="display-4 fw-black text-white mb-4">Geleceği Birlikte Kodlayalım.</h2>

@@ -22,8 +22,7 @@ namespace TechClubWebApp.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Seed default admin: admin / 123
-            // "123" -> SHA256 -> Base64 is "pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM="
+           
             modelBuilder.Entity<AdminUser>().HasData(
                 new AdminUser
                 {

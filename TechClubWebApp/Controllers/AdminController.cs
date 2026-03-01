@@ -20,30 +20,23 @@ namespace TechClubWebApp.Controllers
             _context = context;
         }
 
-        // GET: /Admin/Index
         public IActionResult Index()
         {
             return View();
         }
 
-        // ==========================================
-        // ANNOUNCEMENTS CRUD
-        // ==========================================
 
-        // GET: /Admin/Announcements
         public async Task<IActionResult> Announcements()
         {
             var announcements = await _context.Announcements.OrderByDescending(x => x.CreatedDate).ToListAsync();
             return View(announcements);
         }
 
-        // GET: /Admin/CreateAnnouncement
         public IActionResult CreateAnnouncement()
         {
             return View();
         }
 
-        // POST: /Admin/CreateAnnouncement
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAnnouncement(Announcement model, IFormFile? imageFile)
@@ -75,7 +68,6 @@ namespace TechClubWebApp.Controllers
             return View(model);
         }
 
-        // GET: /Admin/EditAnnouncement/5
         public async Task<IActionResult> EditAnnouncement(int? id)
         {
             if (id == null) return NotFound();
@@ -86,7 +78,7 @@ namespace TechClubWebApp.Controllers
             return View(announcement);
         }
 
-        // POST: /Admin/EditAnnouncement/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAnnouncement(int id, Announcement model, IFormFile? imageFile)
@@ -110,7 +102,7 @@ namespace TechClubWebApp.Controllers
                             await imageFile.CopyToAsync(fileStream);
                         }
 
-                        // Silme işlemi (isteğe bağlı, disk alanından tasarruf için eski resmi sil)
+                       
                         if (!string.IsNullOrEmpty(model.ImageUrl))
                         {
                             var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", model.ImageUrl.TrimStart('/'));
@@ -135,7 +127,6 @@ namespace TechClubWebApp.Controllers
             return View(model);
         }
 
-        // POST: /Admin/DeleteAnnouncement/5
         [HttpPost, ActionName("DeleteAnnouncement")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -155,24 +146,18 @@ namespace TechClubWebApp.Controllers
             return _context.Announcements.Any(e => e.Id == id);
         }
 
-        // ==========================================
-        // EVENTS CRUD
-        // ==========================================
 
-        // GET: /Admin/Events
         public async Task<IActionResult> Events()
         {
             var events = await _context.Events.OrderBy(x => x.EventDate).ToListAsync();
             return View(events);
         }
 
-        // GET: /Admin/CreateEvent
         public IActionResult CreateEvent()
         {
             return View();
         }
 
-        // POST: /Admin/CreateEvent
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateEvent(Event model, IFormFile? imageFile)
@@ -203,7 +188,6 @@ namespace TechClubWebApp.Controllers
             return View(model);
         }
 
-        // GET: /Admin/EditEvent/5
         public async Task<IActionResult> EditEvent(int? id)
         {
             if (id == null) return NotFound();
@@ -214,7 +198,6 @@ namespace TechClubWebApp.Controllers
             return View(ev);
         }
 
-        // POST: /Admin/EditEvent/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditEvent(int id, Event model, IFormFile? imageFile)
@@ -262,7 +245,6 @@ namespace TechClubWebApp.Controllers
             return View(model);
         }
 
-        // POST: /Admin/DeleteEvent/5
         [HttpPost, ActionName("DeleteEvent")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteEventConfirmed(int id)
@@ -282,24 +264,17 @@ namespace TechClubWebApp.Controllers
             return _context.Events.Any(e => e.Id == id);
         }
 
-        // ==========================================
-        // BANNERS CRUD
-        // ==========================================
-
-        // GET: /Admin/Banners
         public async Task<IActionResult> Banners()
         {
             var banners = await _context.Banners.OrderByDescending(x => x.Id).ToListAsync();
             return View(banners);
         }
 
-        // GET: /Admin/CreateBanner
         public IActionResult CreateBanner()
         {
             return View();
         }
 
-        // POST: /Admin/CreateBanner
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateBanner(Banner model, IFormFile? imageFile)
@@ -342,7 +317,6 @@ namespace TechClubWebApp.Controllers
             return View(model);
         }
 
-        // GET: /Admin/EditBanner/5
         public async Task<IActionResult> EditBanner(int? id)
         {
             if (id == null) return NotFound();
@@ -353,7 +327,6 @@ namespace TechClubWebApp.Controllers
             return View(banner);
         }
 
-        // POST: /Admin/EditBanner/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditBanner(int id, Banner model, IFormFile? imageFile)
@@ -390,7 +363,6 @@ namespace TechClubWebApp.Controllers
                     model.ImageUrl = "/images/uploads/" + uniqueFileName;
                 }
 
-                // Ön yüzden gelmediği için false'a düşmesini engelle //
                 model.IsActive = true;
 
                 _context.Update(model);
@@ -411,7 +383,6 @@ namespace TechClubWebApp.Controllers
             return View(model);
         }
 
-        // POST: /Admin/DeleteBanner/5
         [HttpPost, ActionName("DeleteBanner")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteBannerConfirmed(int id)
@@ -431,25 +402,21 @@ namespace TechClubWebApp.Controllers
             return _context.Banners.Any(e => e.Id == id);
         }
 
-        // GET: /Admin/Admins
         public async Task<IActionResult> Admins()
         {
             var admins = await _context.Admins.OrderByDescending(x => x.CreatedDate).ToListAsync();
             return View(admins);
         }
 
-        // GET: /Admin/CreateAdmin
         public IActionResult CreateAdmin()
         {
             return View();
         }
 
-        // POST: /Admin/CreateAdmin
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAdmin(TechClubWebApp.Models.AdminUser model, string RawPassword)
         {
-            // PasswordHash model bağlama sırasında boş geleceği için ModelState'den hatasını silelim
             ModelState.Remove("PasswordHash");
 
             if (ModelState.IsValid && !string.IsNullOrEmpty(RawPassword))
@@ -474,7 +441,6 @@ namespace TechClubWebApp.Controllers
             return View(model);
         }
 
-        // GET: /Admin/EditAdmin/5
         public async Task<IActionResult> EditAdmin(int? id)
         {
             if (id == null) return NotFound();
@@ -485,7 +451,6 @@ namespace TechClubWebApp.Controllers
             return View(admin);
         }
 
-        // POST: /Admin/EditAdmin/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAdmin(int id, TechClubWebApp.Models.AdminUser model, string? NewRawPassword)
@@ -497,7 +462,6 @@ namespace TechClubWebApp.Controllers
                 var existingAdmin = await _context.Admins.FindAsync(id);
                 if (existingAdmin == null) return NotFound();
 
-                // If username is changed, ensure it's not taken by someone else
                 if (existingAdmin.Username != model.Username && _context.Admins.Any(x => x.Username == model.Username))
                 {
                     ModelState.AddModelError("Username", "Bu kullanıcı adı zaten mevcut.");
@@ -520,7 +484,6 @@ namespace TechClubWebApp.Controllers
             return View(model);
         }
 
-        // POST: /Admin/DeleteAdmin/5
         [HttpPost, ActionName("DeleteAdmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteAdminConfirmed(int id)
@@ -528,7 +491,6 @@ namespace TechClubWebApp.Controllers
             var admin = await _context.Admins.FindAsync(id);
             if (admin != null)
             {
-                // Prevent deleting the only admin
                 if (_context.Admins.Count() <= 1)
                 {
                     TempData["ErrorMessage"] = "Sistemde sadece 1 yönetici kaldı, onu silemezsiniz!";
@@ -542,16 +504,10 @@ namespace TechClubWebApp.Controllers
             return RedirectToAction(nameof(Admins));
         }
 
-        // ==========================================
-        // AUTHENTICATION
-        // ==========================================
-
-        // GET: /Admin/Login
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {
-            // If already logged in, redirect to Dashboard
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Admin"); 
@@ -559,7 +515,6 @@ namespace TechClubWebApp.Controllers
             return View();
         }
 
-        // POST: /Admin/Login
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
@@ -586,7 +541,7 @@ namespace TechClubWebApp.Controllers
 
                 var authProperties = new Microsoft.AspNetCore.Authentication.AuthenticationProperties
                 {
-                    IsPersistent = true // Remember me basically
+                    IsPersistent = true 
                 };
 
                 await HttpContext.SignInAsync(
@@ -594,16 +549,13 @@ namespace TechClubWebApp.Controllers
                     new System.Security.Claims.ClaimsPrincipal(claimsIdentity),
                     authProperties);
 
-                // Redirect to a secure area after successful login.
                 return RedirectToAction("Index", "Admin"); 
             }
 
-            // If login fails
             ViewBag.ErrorMessage = "Hatalı kullanıcı adı veya şifre girdiniz.";
             return View();
         }
 
-        // GET: /Admin/Logout
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme);
